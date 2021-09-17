@@ -23,6 +23,7 @@ public class ProductControler extends Controller{
 	//private Label menu_1;
 	private Button btn_ver_productos;
 	private Listbox lbl_products;
+	Button btn_add_product;
 	//Consumo rest
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
@@ -32,6 +33,7 @@ public class ProductControler extends Controller{
 		// TODO Auto-generated method stub
 		super.doAfterCompose(comp);
 		//menu_1.setValue("Hola Omar");
+		btn_add_product.setLabel("Add");
 		cargarProductos();
 	}
 	
@@ -40,7 +42,6 @@ public class ProductControler extends Controller{
 		try {
 			Listitem item,item1;
 			Listcell cell;
-			
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
 			System.out.println(response.body());
 			

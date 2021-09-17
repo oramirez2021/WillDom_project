@@ -10,5 +10,7 @@
 	</listhead>
 	  
 </listbox>
+<button id = "btn_add_product"/>
+
 </window>
 </zk>
