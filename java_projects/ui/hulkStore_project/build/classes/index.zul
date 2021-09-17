@@ -1,0 +1,6 @@
+<?page title="Auto Generated index.zul"?>
+<window title="Hello World!!" border="normal" width="200px" apply ="com.hulkStore_project.controllers.IndexController">
+
+<label id = "menu_1" value="You are using: ${desktop.webApp.version}"/>
+<button id = "btn_ver_productos"/>
+</window>

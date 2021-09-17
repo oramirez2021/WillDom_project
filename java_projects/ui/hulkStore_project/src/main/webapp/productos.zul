@@ -1,0 +1,14 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="new page title" border="normal" apply = "com.hulkStore_project.controllers.ProductControler">
+<listbox id = "lbl_products">
+	<listhead>
+		<listheader label = "CODIGO PRODUCTO"/>
+		<listheader label = "PRODUCTO"/>
+		<listheader label = "CATEGORIA"/>
+		<listheader label = "STOCK"/>
+	</listhead>
+	  
+</listbox>
+</window>
+</zk>
