@@ -108,6 +108,27 @@ public class ObjetoService {
 
 	}
 
+	public void deleteProduct(int product_id) {
+		//Product ObjProd = null;
+		// Instancias la clase que hemos creado anteriormente
+		DBConnection MySql = new DBConnection();
+		// Llamas al método que tiene la clase y te devuelve una conexión
+		Connection conn = MySql.mySQLConnect();
+		// Query que usarás para hacer lo que necesites
+		String comando = "delete from  PRODUCT where product_id = ?";
+		// Statement
+		try {
+            PreparedStatement sentencia=conn.prepareStatement(comando);
+            sentencia.setInt(1,product_id);
+            sentencia.executeUpdate();
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+	}
+	
 	/*
 	 * Validaciones basicas del servicio -1 servicio esta vacio, 1 formato invalido,
 	 * 0 formato correcto

@@ -46,4 +46,18 @@ public class ObjetoController {
 		}
 		return objService.getObjeto();
 	}
+	@RequestMapping(method = RequestMethod.GET, path = "/DeleteProduct", produces = "application/json")
+	public @ResponseBody String deleteProduct(int product_id) {
+		ObjetoService objService=null;
+		//System.out.println(inputJson);
+		try {
+			//log.info(inputJson);
+			//ObjetoReq mp = new Gson().fromJson(inputJson, ObjetoReq.class);
+			objService = new ObjetoService();
+			objService.deleteProduct(product_id);
+		} catch (Exception ex) {
+			log.info(ex.toString());
+		}
+		return objService.getObjeto();
+	}
 }
