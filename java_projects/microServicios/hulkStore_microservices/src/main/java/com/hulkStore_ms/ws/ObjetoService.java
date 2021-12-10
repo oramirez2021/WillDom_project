@@ -129,6 +129,30 @@ public class ObjetoService {
 
 	}
 	
+	public void updateProduct(String product_name, int category_id, int stock, int product_id) {
+		//Product ObjProd = null;
+		// Instancias la clase que hemos creado anteriormente
+		DBConnection MySql = new DBConnection();
+		// Llamas al método que tiene la clase y te devuelve una conexión
+		Connection conn = MySql.mySQLConnect();
+		// Query que usarás para hacer lo que necesites
+		String comando = "update PRODUCT set product_name = ?, category_id = ?, stock = ? where product_id = ?";
+		// Statement
+		try {
+            PreparedStatement sentencia=conn.prepareStatement(comando);
+            sentencia.setString(1,product_name);
+            sentencia.setInt(2,category_id);
+            sentencia.setInt(3,stock);
+            sentencia.setInt(4,product_id);
+            sentencia.executeUpdate();
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+	}
+	
 	/*
 	 * Validaciones basicas del servicio -1 servicio esta vacio, 1 formato invalido,
 	 * 0 formato correcto
