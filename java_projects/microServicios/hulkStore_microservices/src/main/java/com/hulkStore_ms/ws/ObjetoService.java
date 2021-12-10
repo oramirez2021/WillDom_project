@@ -20,6 +20,7 @@ import com.google.gson.*;
 
 //Connection
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,6 +77,29 @@ public class ObjetoService {
             	ObjRespProd.category_id.add(resultado.getInt("category_id"));
             	ObjRespProd.stock.add(resultado.getInt("stock"));
             }
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+	}
+	
+	public void insertProduct(String product_name, int category_id, int stock) {
+		//Product ObjProd = null;
+		// Instancias la clase que hemos creado anteriormente
+		DBConnection MySql = new DBConnection();
+		// Llamas al método que tiene la clase y te devuelve una conexión
+		Connection conn = MySql.mySQLConnect();
+		// Query que usarás para hacer lo que necesites
+		String comando = "insert into PRODUCT(product_name,category_id,stock) values (?,?,?)";
+		// Statement
+		try {
+            PreparedStatement sentencia=conn.prepareStatement(comando);
+            sentencia.setString(1,product_name);
+            sentencia.setInt(2, category_id);
+            sentencia.setInt(3, stock);
+            sentencia.executeUpdate();
             
         } catch (SQLException e) {
             

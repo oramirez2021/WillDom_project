@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 public class DBConnection {
 	// MySql library
-    public String driver = "com.mysql.jdbc.Driver";
+    public String driver = "com.mysql.cj.jdbc.Driver";
     
     // DataBase name
     public String database = "HulkStore";
