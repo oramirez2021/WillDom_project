@@ -10,7 +10,7 @@
 	</listhead>
 	  
 </listbox>
-<button id = "btn_add_product"/>
+<button id = "btn_add_product" href = "../hulkStore_project/producto.zul"/>
 
 </window>
 </zk>

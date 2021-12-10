@@ -16,7 +16,7 @@ public class DBConnection {
     public String port = "3306";
     
     //DataBase string connection path 
-    public String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
+    public String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?allowPublicKeyRetrieval=true&useSSL=false";
     
     // User name
     public String username = "admin";

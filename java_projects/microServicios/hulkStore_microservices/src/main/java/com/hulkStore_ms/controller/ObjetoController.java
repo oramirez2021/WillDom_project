@@ -60,4 +60,19 @@ public class ObjetoController {
 		}
 		return objService.getObjeto();
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/UpdateProduct", produces = "application/json")
+	public @ResponseBody String updateProduct(String product_name, int category_id, int stock, int product_id) {
+		ObjetoService objService=null;
+		//System.out.println(inputJson);
+		try {
+			//log.info(inputJson);
+			//ObjetoReq mp = new Gson().fromJson(inputJson, ObjetoReq.class);
+			objService = new ObjetoService();
+			objService.updateProduct(product_name, category_id, stock, product_id);
+		} catch (Exception ex) {
+			log.info(ex.toString());
+		}
+		return objService.getObjeto();
+	}
 }
