@@ -59,4 +59,30 @@ private void insertarProducto(String product_name, int category_id, int stock) {
 	}
 }
 
+private void eliminarProducto(int product_id) {
+	final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+product_id)).build();
+	try {
+		Listitem item,item1;
+		Listcell cell;
+		final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
+		
+	} catch (IOException | InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+private void actualizarProducto(String product_name, int category_id, int stock, int product_id) {
+	final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock+"&product_id="+product_id)).build();
+	try {
+		Listitem item,item1;
+		Listcell cell;
+		final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
+		
+	} catch (IOException | InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
 }
