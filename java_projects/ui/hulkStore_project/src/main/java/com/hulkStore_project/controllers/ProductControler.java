@@ -4,26 +4,35 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
+import java.util.Set;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.ListModel;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Window;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hulkStore_project.model.ObjetoRespProduct;
+import com.hulkStore_project.model.Product;
 
-public class ProductControler extends Controller{
+
+public class ProductControler extends Controller,SelectorComposer<Window>{
 	//private Label menu_1;
 	private Button btn_ver_productos;
 	private Listbox lbl_products;
 	Button btn_add_product;
+	private ListModel<Product> productModel;
 	//Consumo rest
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
@@ -35,6 +44,12 @@ public class ProductControler extends Controller{
 		//menu_1.setValue("Hola Omar");
 		btn_add_product.setLabel("Add");
 		cargarProductos();
+	}
+	
+	@Listen("onSelect = listbox")
+	public void eliminaProducto() {
+		Set<Product> selectedProduct = ((ListModelList<Product>)productModel).getSelection();
+		int size = selectedProduct.size();
 	}
 	
 	private void cargarProductos() {

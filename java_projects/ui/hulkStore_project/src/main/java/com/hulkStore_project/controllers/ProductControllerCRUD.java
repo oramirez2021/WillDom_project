@@ -1,7 +1,5 @@
 package com.hulkStore_project.controllers;
 
-
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,12 +10,14 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.ListModel;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 
 import com.hulkStore_project.model.ObjetoRespProduct;
-
+import com.hulkStore_project.model.*;
 public class ProductControllerCRUD extends Controller {
 	Button btn_save_product;
 	Textbox txt_product_name;
@@ -33,9 +33,10 @@ public void doAfterCompose(Component comp) throws Exception {
 	// TODO Auto-generated method stub
 	super.doAfterCompose(comp);
 	btn_save_product.setLabel("Salvar");
-	
 	btn_save_product.addEventListener("onClick", new guardarListener());
 }
+
+@Listen("onSelect = ")
 
 public class guardarListener implements EventListener {
     public void onEvent(Event event) {
