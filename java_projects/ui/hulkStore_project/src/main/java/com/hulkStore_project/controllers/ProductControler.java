@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
@@ -25,6 +26,7 @@ import org.zkoss.zul.Window;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.hulkStore_project.controllers.ProductControllerCRUD.guardarListener;
 import com.hulkStore_project.model.ObjetoRespProduct;
 import com.hulkStore_project.model.Product;
 
@@ -47,6 +49,7 @@ public class ProductControler extends Controller{
 		super.doAfterCompose(comp);
 		//menu_1.setValue("Hola Omar");
 		btn_add_product.setLabel("Add");
+		lbl_products.addEventListener("onSelect", new actualizarMensaje());
 		cargarProductos();
 	}
 	private void showNotify(String msg,Component ref){
@@ -57,13 +60,23 @@ public class ProductControler extends Controller{
         return productModel;
     }
 	
-	@Listen("onSelect = listbox")
+	public class actualizarMensaje implements EventListener {
+	    public void onEvent(Event event) {
+	    	System.out.println("entro");
+	    	Set<Product> selectedProduct = ((ListModelList<Product>)productModel).getSelection();
+	        int size = selectedProduct.size();
+	        System.out.println("tamano "+size);
+	        showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
+	    }
+	}
+	
+	/*@Listen("onSelect = lbl_products")
 	public void actualizarMensaje() {
         Set<Product> selectedProduct = ((ListModelList<Product>)productModel).getSelection();
         int size = selectedProduct.size();
         System.out.println("tamano "+size);
         showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
-    }
+    }*/
 	
 	private void cargarProductos() {
 		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/GetProducts")).build();
@@ -97,7 +110,6 @@ public class ProductControler extends Controller{
 				cell.setLabel(Integer.toString(ObjRespProd.stock.get(c)));
 				c++;
 			}
-			
 			lbl_products.invalidate();
 			
 			

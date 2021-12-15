@@ -36,7 +36,6 @@ public void doAfterCompose(Component comp) throws Exception {
 	btn_save_product.addEventListener("onClick", new guardarListener());
 }
 
-@Listen("onSelect = ")
 
 public class guardarListener implements EventListener {
     public void onEvent(Event event) {
