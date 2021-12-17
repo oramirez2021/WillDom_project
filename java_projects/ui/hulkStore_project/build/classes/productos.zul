@@ -8,9 +8,17 @@
 		<listheader label = "CATEGORIA"/>
 		<listheader label = "STOCK"/>
 	</listhead>
-	  
+	<template name="model">
+            <listitem>
+                <listcell />
+                <listcell label="${each.product_id}" />
+                <listcell label="${each.product_name}" />
+                <listcell label="${each.category_id}" />
+                <listcell label="${each.stock}" />
+            </listitem>
+        </template>
 </listbox>
-<button id = "btn_add_product" href = "../hulkStore_project/producto.zul"/>
+<button id = "btn_add_product" href = "../hulkStore_project/producto.zul" >Add</button>
 
 </window>
 </zk>

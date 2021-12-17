@@ -33,11 +33,10 @@ import com.hulkStore_project.model.ObjetoRespProduct;
 import com.hulkStore_project.model.Product;
 
 
-public class ProductControler extends Controller{
+public class ProductControler extends SelectorComposer<Component> {
 	//private Label menu_1;
-	private Button btn_ver_productos;
-	private Listbox lbl_products;
-	Button btn_add_product;
+	//private Listbox lbl_products;
+	//Button btn_add_product;
     private ListModel<Product> productsModel;
     @Wire
     private Window win;
@@ -45,15 +44,19 @@ public class ProductControler extends Controller{
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
 	Gson gson = new GsonBuilder().serializeNulls().create();
-	@Override
+	/*@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		// TODO Auto-generated method stub
-		super.doAfterCompose(comp);
+		//super.doAfterCompose(comp);
 		//menu_1.setValue("Hola Omar");
-		btn_add_product.setLabel("Add");
-		lbl_products.addEventListener("onSelect", new actualizarMensaje());
+		//btn_add_product.setLabel("Add");
+		//lbl_products.addEventListener("onSelect", new actualizarMensaje());
+		cargarProductos();
+	}*/
+	public ProductControler() {
 		cargarProductos();
 	}
+	
 	private void showNotify(String msg,Component ref){
         Clients.showNotification(msg,"info",ref,"top_right",2000);
     }
@@ -62,7 +65,7 @@ public class ProductControler extends Controller{
         return productsModel;
     }
 	
-	public class actualizarMensaje implements EventListener {
+	/*public class actualizarMensaje implements EventListener {
 	    public void onEvent(Event event) {
 	    	System.out.println("entro");
 	    	Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
@@ -70,15 +73,16 @@ public class ProductControler extends Controller{
 	        System.out.println("tamano "+size);
 	        showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
 	    }
-	}
+	}*/
 	
-	/*@Listen("onSelect = lbl_products")
+	@Listen("onSelect = listbox")
 	public void actualizarMensaje() {
-        Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
+        System.out.println("entro");
+    	Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
         int size = selectedProduct.size();
         System.out.println("tamano "+size);
-        showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
-    }*/
+        showNotify(size > 0 ? size + " product selected: " + selectedProduct.toString() : "no product selected", win);
+    }
 	
 	private void cargarProductos() {
 		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/GetProducts")).build();
@@ -96,7 +100,7 @@ public class ProductControler extends Controller{
 			int c=0;
 			for (int product_id : ObjRespProd.product_id) {
 				item = new Listitem();
-				item.setParent(lbl_products);
+				//item.setParent(lbl_products);
 				item.setValue(null);
 				cell = new Listcell();
 				cell.setParent(item);
@@ -112,12 +116,16 @@ public class ProductControler extends Controller{
 				cell = new Listcell();
 				cell.setParent(item);
 				cell.setLabel(Integer.toString(ObjRespProd.stock.get(c)));
-				c++;
-				producto = new Product(product_id,"",1,1);
+				
+				producto = new Product(product_id,ObjRespProd.product_name.get(c),ObjRespProd.category_id.get(c),ObjRespProd.stock.get(c));
 				list_product.add(producto);
+				c++;
 			}				
+			
 			productsModel = new ListModelList<Product>(list_product);
-			lbl_products.invalidate();
+			((ListModelList<Product>)productsModel).setMultiple(true);
+	       // ((ListModelList<Product>)productsModel).setMultiple(true);
+			//lbl_products.invalidate();
 			
 			
 		} catch (IOException | InterruptedException e) {

@@ -2,14 +2,14 @@ package com.hulkStore_project.model;
 
 public class Product {
 int product_id;
-String prodcut_name;
+String product_name;
 int category_id;
 int stock;
 
-public Product(int product_id, String prodcut_name, int category_id, int stock) {
+public Product(int product_id, String product_name, int category_id, int stock) {
 	super();
 	this.product_id = product_id;
-	this.prodcut_name = prodcut_name;
+	this.product_name = product_name;
 	this.category_id = category_id;
 	this.stock = stock;
 }
@@ -21,11 +21,11 @@ public int getProduct_id() {
 public void setProduct_id(int product_id) {
 	this.product_id = product_id;
 }
-public String getProdcut_name() {
-	return prodcut_name;
+public String getproduct_name() {
+	return product_name;
 }
-public void setProdcut_name(String prodcut_name) {
-	this.prodcut_name = prodcut_name;
+public void setproduct_name(String product_name) {
+	this.product_name = product_name;
 }
 public int getCategory_id() {
 	return category_id;
