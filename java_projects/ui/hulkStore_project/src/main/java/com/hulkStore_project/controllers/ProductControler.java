@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -36,7 +38,7 @@ public class ProductControler extends Controller{
 	private Button btn_ver_productos;
 	private Listbox lbl_products;
 	Button btn_add_product;
-    private ListModel<Product> productModel;
+    private ListModel<Product> productsModel;
     @Wire
     private Window win;
 	//Consumo rest
@@ -56,14 +58,14 @@ public class ProductControler extends Controller{
         Clients.showNotification(msg,"info",ref,"top_right",2000);
     }
 	
-	public ListModel<Product> getProductModel() {
-        return productModel;
+	public ListModel<Product> getproductsModel() {
+        return productsModel;
     }
 	
 	public class actualizarMensaje implements EventListener {
 	    public void onEvent(Event event) {
 	    	System.out.println("entro");
-	    	Set<Product> selectedProduct = ((ListModelList<Product>)productModel).getSelection();
+	    	Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
 	        int size = selectedProduct.size();
 	        System.out.println("tamano "+size);
 	        showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
@@ -72,7 +74,7 @@ public class ProductControler extends Controller{
 	
 	/*@Listen("onSelect = lbl_products")
 	public void actualizarMensaje() {
-        Set<Product> selectedProduct = ((ListModelList<Product>)productModel).getSelection();
+        Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
         int size = selectedProduct.size();
         System.out.println("tamano "+size);
         showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
@@ -83,6 +85,8 @@ public class ProductControler extends Controller{
 		try {
 			Listitem item,item1;
 			Listcell cell;
+			List<Product> list_product = new ArrayList<Product>();
+			Product producto;
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
 			System.out.println(response.body());
 			
@@ -109,7 +113,10 @@ public class ProductControler extends Controller{
 				cell.setParent(item);
 				cell.setLabel(Integer.toString(ObjRespProd.stock.get(c)));
 				c++;
-			}
+				producto = new Product(product_id,"",1,1);
+				list_product.add(producto);
+			}				
+			productsModel = new ListModelList<Product>(list_product);
 			lbl_products.invalidate();
 			
 			

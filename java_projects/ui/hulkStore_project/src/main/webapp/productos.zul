@@ -1,7 +1,7 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
 <window title="new page title" border="normal" apply = "com.hulkStore_project.controllers.ProductControler" id = "win">
-<listbox id = "lbl_products" model = "${win$composer.productModel}" mold = "paging" pageSize = "9" checkmark="false">
+<listbox id = "lbl_products" model = "${win$composer.productsModel}" mold = "paging" pageSize = "9" checkmark="false">
 	<listhead>
 		<listheader label = "CODIGO PRODUCTO"/>
 		<listheader label = "PRODUCTO"/>
