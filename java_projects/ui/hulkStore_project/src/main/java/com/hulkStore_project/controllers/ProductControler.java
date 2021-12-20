@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Version;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.net.http.HttpRequest;
@@ -31,7 +32,6 @@ import com.google.gson.GsonBuilder;
 import com.hulkStore_project.controllers.ProductControllerCRUD.guardarListener;
 import com.hulkStore_project.model.ObjetoRespProduct;
 import com.hulkStore_project.model.Product;
-
 
 public class ProductControler extends SelectorComposer<Component> {
 	//private Label menu_1;
@@ -61,7 +61,7 @@ public class ProductControler extends SelectorComposer<Component> {
         Clients.showNotification(msg,"info",ref,"top_right",2000);
     }
 	
-	public ListModel<Product> getproductsModel() {
+	public ListModel<Product> getProductsModel() {
         return productsModel;
     }
 	
@@ -81,7 +81,8 @@ public class ProductControler extends SelectorComposer<Component> {
     	Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
         int size = selectedProduct.size();
         System.out.println("tamano "+size);
-        showNotify(size > 0 ? size + " product selected: " + selectedProduct.toString() : "no product selected", win);
+        System.out.println();
+        showNotify(size > 0 ? size + " product selected: " + selectedProduct.iterator().next().getproduct_name() : "no product selected", win);
     }
 	
 	private void cargarProductos() {
@@ -100,7 +101,6 @@ public class ProductControler extends SelectorComposer<Component> {
 			int c=0;
 			for (int product_id : ObjRespProd.product_id) {
 				item = new Listitem();
-				//item.setParent(lbl_products);
 				item.setValue(null);
 				cell = new Listcell();
 				cell.setParent(item);
@@ -109,7 +109,6 @@ public class ProductControler extends SelectorComposer<Component> {
 				cell = new Listcell();
 				cell.setParent(item);
 				cell.setLabel(ObjRespProd.product_name.get(c));
-				//System.out.println(product_id);
 				cell = new Listcell();
 				cell.setParent(item);
 				cell.setLabel(Integer.toString(ObjRespProd.category_id.get(c)));
@@ -123,8 +122,6 @@ public class ProductControler extends SelectorComposer<Component> {
 			}				
 			
 			productsModel = new ListModelList<Product>(list_product);
-			((ListModelList<Product>)productsModel).setMultiple(true);
-	       // ((ListModelList<Product>)productsModel).setMultiple(true);
 			//lbl_products.invalidate();
 			
 			
