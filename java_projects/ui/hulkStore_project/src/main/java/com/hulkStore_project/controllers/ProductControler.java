@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -41,6 +42,7 @@ public class ProductControler extends SelectorComposer<Component> {
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
 	Gson gson = new GsonBuilder().serializeNulls().create();
+	String selectedProductId, selectedProductName = "";
 
 	public ProductControler() {
 		cargarProductos();
@@ -61,14 +63,17 @@ public class ProductControler extends SelectorComposer<Component> {
         int size = selectedProduct.size();
         System.out.println("tamano "+size);
         System.out.println();
-        showNotify(size > 0 ? size + " product selected: " + selectedProduct.iterator().next().getproduct_name() : "no product selected", win);
+        selectedProductName = selectedProduct.iterator().next().getproduct_name();
+        selectedProductId = ""+selectedProduct.iterator().next().getProduct_id();
+        showNotify(size > 0 ? size + " product selected: " + selectedProductName : "no product selected", win);
     }
 	
 	@Listen("onClick = #btn_del_product")
 	public void onClick() {
-		String product_id="5";
+		String product_id = selectedProductId;
 		System.out.println("entro eliminar");
 		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+product_id)).build();
+		 Executions.sendRedirect("");
 		try {
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());	
 		} catch (IOException | InterruptedException e) {
