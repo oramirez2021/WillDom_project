@@ -43,7 +43,8 @@ public class ProductControler extends SelectorComposer<Component> {
 	ObjetoRespProduct ObjRespProd=null;
 	Gson gson = new GsonBuilder().serializeNulls().create();
 	String selectedProductId, selectedProductName = "";
-
+	String product_name = "";
+	int category_id,stock,product_id;
 	public ProductControler() {
 		cargarProductos();
 	}
@@ -69,10 +70,24 @@ public class ProductControler extends SelectorComposer<Component> {
     }
 	
 	@Listen("onClick = #btn_del_product")
-	public void onClick() {
+	public void onClickDel() {
 		String product_id = selectedProductId;
 		System.out.println("entro eliminar");
 		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+product_id)).build();
+		 Executions.sendRedirect("");
+		try {
+			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());	
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	
+	@Listen("onClick = #btn_upd_product")
+	public void onClickUpd() {
+		String product_id = selectedProductId;
+		System.out.println("entro eliminar");
+		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/UpdateProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock+"&product_id="+product_id)).build();
 		 Executions.sendRedirect("");
 		try {
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());	

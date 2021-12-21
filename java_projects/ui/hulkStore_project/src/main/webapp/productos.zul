@@ -20,5 +20,6 @@
 </listbox>
 <button id = "btn_add_product" href = "../hulkStore_project/producto.zul" >Add</button>
 <button id = "btn_del_product" >Delete</button>
+<button id = "btn_upd_product" href = "../hulkStore_project/producto.zul" >Update</button>
 </window>
 </zk>
