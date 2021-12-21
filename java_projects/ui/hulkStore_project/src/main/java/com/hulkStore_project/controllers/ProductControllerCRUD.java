@@ -32,7 +32,6 @@ public class ProductControllerCRUD extends Controller {
 public void doAfterCompose(Component comp) throws Exception {
 	// TODO Auto-generated method stub
 	super.doAfterCompose(comp);
-	//btn_save_product.setLabel("Salvar");
 	btn_save_product.addEventListener("onClick", new guardarListener());
 }
 

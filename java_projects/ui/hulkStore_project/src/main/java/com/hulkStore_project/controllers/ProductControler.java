@@ -34,9 +34,6 @@ import com.hulkStore_project.model.ObjetoRespProduct;
 import com.hulkStore_project.model.Product;
 
 public class ProductControler extends SelectorComposer<Component> {
-	//private Label menu_1;
-	//private Listbox lbl_products;
-	//Button btn_add_product;
     private ListModel<Product> productsModel;
     @Wire
     private Window win;
@@ -44,15 +41,7 @@ public class ProductControler extends SelectorComposer<Component> {
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
 	Gson gson = new GsonBuilder().serializeNulls().create();
-	/*@Override
-	public void doAfterCompose(Component comp) throws Exception {
-		// TODO Auto-generated method stub
-		//super.doAfterCompose(comp);
-		//menu_1.setValue("Hola Omar");
-		//btn_add_product.setLabel("Add");
-		//lbl_products.addEventListener("onSelect", new actualizarMensaje());
-		cargarProductos();
-	}*/
+
 	public ProductControler() {
 		cargarProductos();
 	}
@@ -65,16 +54,6 @@ public class ProductControler extends SelectorComposer<Component> {
         return productsModel;
     }
 	
-	/*public class actualizarMensaje implements EventListener {
-	    public void onEvent(Event event) {
-	    	System.out.println("entro");
-	    	Set<Product> selectedProduct = ((ListModelList<Product>)productsModel).getSelection();
-	        int size = selectedProduct.size();
-	        System.out.println("tamano "+size);
-	        showNotify(size > 0 ? size + " product selected: " + selectedProduct : "no product selected", win);
-	    }
-	}*/
-	
 	@Listen("onSelect = listbox")
 	public void actualizarMensaje() {
         System.out.println("entro");
@@ -83,6 +62,19 @@ public class ProductControler extends SelectorComposer<Component> {
         System.out.println("tamano "+size);
         System.out.println();
         showNotify(size > 0 ? size + " product selected: " + selectedProduct.iterator().next().getproduct_name() : "no product selected", win);
+    }
+	
+	@Listen("onClick = #btn_del_product")
+	public void onClick() {
+		String product_id="5";
+		System.out.println("entro eliminar");
+		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+product_id)).build();
+		try {
+			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());	
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	
 	private void cargarProductos() {
@@ -94,7 +86,6 @@ public class ProductControler extends SelectorComposer<Component> {
 			Product producto;
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
 			System.out.println(response.body());
-			
 			ObjRespProd=gson.fromJson(response.body(), ObjetoRespProduct.class);
 			System.out.println(ObjRespProd.product_name.get(0));
 			System.out.println(ObjRespProd.product_name.get(1));
@@ -114,16 +105,13 @@ public class ProductControler extends SelectorComposer<Component> {
 				cell.setLabel(Integer.toString(ObjRespProd.category_id.get(c)));
 				cell = new Listcell();
 				cell.setParent(item);
-				cell.setLabel(Integer.toString(ObjRespProd.stock.get(c)));
-				
+				cell.setLabel(Integer.toString(ObjRespProd.stock.get(c)));			
 				producto = new Product(product_id,ObjRespProd.product_name.get(c),ObjRespProd.category_id.get(c),ObjRespProd.stock.get(c));
 				list_product.add(producto);
 				c++;
 			}				
 			
-			productsModel = new ListModelList<Product>(list_product);
-			//lbl_products.invalidate();
-			
+			productsModel = new ListModelList<Product>(list_product);			
 			
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
