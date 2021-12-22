@@ -1,0 +1,13 @@
+<?page title="Añadir Producto" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Añadir Producto" border="normal" apply = "com.hulkStore_project.controllers.ProductControllerCRUD">
+<label id="lbl_product_name" value="Nombre de Producto:" />
+<textbox id="txt_product_name" />
+<label id="lbl_category_id" value="Código de Categoria:"/>
+<textbox id="txt_category_id"/>
+<label id="lbl_stock" value="Stock Producto:"/>
+<textbox id="txt_stock"/>
+<button id = "btn_save_product" >Salvar</button>
+<button id = "btn_back" href = "../hulkStore_project/productos.zul"  >Volver</button>
+</window>
+</zk>
