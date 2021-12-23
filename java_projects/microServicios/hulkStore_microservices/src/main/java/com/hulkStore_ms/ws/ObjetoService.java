@@ -2,7 +2,9 @@ package com.hulkStore_ms.ws;
 
 import java.io.*;
 import java.net.*;
+import java.security.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.xml.parsers.*;
 
@@ -67,11 +69,6 @@ public class ObjetoService {
             Statement sentencia=conn.createStatement();
             resultado=sentencia.executeQuery(query);
             while (resultado.next()) {
-            	/*ObjProd.setProduct_id(resultado.getInt("product_id"));
-            	ObjProd.setProduct_name(resultado.getString("product_name"));
-            	ObjProd.setCategory_id(resultado.getInt("category_id"));
-            	ObjProd.setStock(resultado.getInt("stock"));*/
-            	//ObjProd = new Product(resultado.getInt("product_id"),resultado.getString("product_name"),resultado.getInt("category_id"),resultado.getInt("stock"));
             	ObjRespProd.product_id.add(resultado.getInt("product_id"));
             	ObjRespProd.product_name.add(resultado.getString("product_name"));
             	ObjRespProd.category_id.add(resultado.getInt("category_id"));
@@ -146,6 +143,30 @@ public class ObjetoService {
             sentencia.setInt(4,product_id);
             sentencia.executeUpdate();
             
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+	}
+	
+	public void insertKardex(int product_id, Date transaction_date, Timestamp transaction_time, String ope_type, int cant) {
+		//Product ObjProd = null;
+		// Instancias la clase que hemos creado anteriormente
+		DBConnection MySql = new DBConnection();
+		// Llamas al método que tiene la clase y te devuelve una conexión
+		Connection conn = MySql.mySQLConnect();
+		// Query que usarás para hacer lo que necesites
+		String comando = "insert into KARDEX(product_id,trasaction_date, transaction_time, ope_type, cant) values (?,?,?,?)";
+		// Statement
+		try {
+            PreparedStatement sentencia=conn.prepareStatement(comando);
+            sentencia.setInt(1,product_id);
+            sentencia.setDate(2,transaction_date);
+            sentencia.setTimestamp(3, null);
+            sentencia.setString(4, ope_type);
+            sentencia.setInt(5,cant);
+            sentencia.executeUpdate();
         } catch (SQLException e) {
             
             e.printStackTrace();

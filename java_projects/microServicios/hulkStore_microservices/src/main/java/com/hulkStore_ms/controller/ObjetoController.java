@@ -1,5 +1,8 @@
 package com.hulkStore_ms.controller;
 
+import java.security.Timestamp;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,10 +69,21 @@ public class ObjetoController {
 		ObjetoService objService=null;
 		//System.out.println(inputJson);
 		try {
-			//log.info(inputJson);
-			//ObjetoReq mp = new Gson().fromJson(inputJson, ObjetoReq.class);
 			objService = new ObjetoService();
 			objService.updateProduct(product_name, category_id, stock, product_id);
+		} catch (Exception ex) {
+			log.info(ex.toString());
+		}
+		return objService.getObjeto();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/InsertKardex", produces = "application/json")
+	public @ResponseBody String insertKardex(int product_id, Date transaction_date, Timestamp transaction_time,String ope_type, int cant ) {
+		ObjetoService objService=null;
+		//System.out.println(inputJson);
+		try {
+			objService = new ObjetoService();
+			objService.insertKardex(product_id, transaction_date, transaction_time, ope_type, cant);
 		} catch (Exception ex) {
 			log.info(ex.toString());
 		}
