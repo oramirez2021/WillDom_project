@@ -42,7 +42,6 @@ public void doAfterCompose(Component comp) throws Exception {
 	try {
 	btn_update_product.addEventListener("onClick", new actualizarListener());
 	System.out.println(session.getAttribute("id_producto"));
-	//txt_product_name.setValue(""+session.getAttribute("id_producto"));
 	txt_product_name.setValue(""+session.getAttribute("nombre_producto"));
 	txt_category_id.setValue(""+session.getAttribute("categoria_producto"));
 	txt_stock.setValue(""+session.getAttribute("stock_producto"));
@@ -63,10 +62,11 @@ public class guardarListener implements EventListener {
 
 public class actualizarListener implements EventListener {
     public void onEvent(Event event) {
+    	product_id = Integer.parseInt(session.getAttribute("id_producto").toString());
     	product_name = txt_product_name.getValue();
 		category_id = Integer.parseInt(txt_category_id.getValue());
 		stock = Integer.parseInt(txt_stock.getValue());
-		actualizarProducto(product_name, category_id, stock,1);
+		actualizarProducto(product_name, category_id, stock,product_id);
     }
 }
 
@@ -83,21 +83,8 @@ private void insertarProducto(String product_name, int category_id, int stock) {
 	}
 }
 
-/*private void eliminarProducto(int product_id) {
-	final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+product_id)).build();
-	try {
-		Listitem item,item1;
-		Listcell cell;
-		final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
-		
-	} catch (IOException | InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-}
-*/
 private void actualizarProducto(String product_name, int category_id, int stock, int product_id) {
-	final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock+"&product_id="+product_id)).build();
+	final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/UpdateProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock+"&product_id="+product_id)).build();
 	try {
 		Listitem item,item1;
 		Listcell cell;
