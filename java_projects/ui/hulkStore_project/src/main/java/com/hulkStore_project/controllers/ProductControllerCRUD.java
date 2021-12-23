@@ -42,6 +42,10 @@ public void doAfterCompose(Component comp) throws Exception {
 	try {
 	btn_update_product.addEventListener("onClick", new actualizarListener());
 	System.out.println(session.getAttribute("id_producto"));
+	//txt_product_name.setValue(""+session.getAttribute("id_producto"));
+	txt_product_name.setValue(""+session.getAttribute("nombre_producto"));
+	txt_category_id.setValue(""+session.getAttribute("categoria_producto"));
+	txt_stock.setValue(""+session.getAttribute("stock_producto"));
 	}catch (Exception e) {
 		// TODO: handle exception
 	}

@@ -44,7 +44,7 @@ public class ProductControler extends SelectorComposer<Component> {
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
 	Gson gson = new GsonBuilder().serializeNulls().create();
-	String selectedProductId, selectedProductName = "";
+	String selectedProductId, selectedProductName = "",selectedProductCtg,selectedProductStock;
 	String product_name = "";
 	int category_id,stock,product_id;
 	Session session = Sessions.getCurrent();
@@ -69,14 +69,19 @@ public class ProductControler extends SelectorComposer<Component> {
         System.out.println();
         selectedProductName = selectedProduct.iterator().next().getproduct_name();
         selectedProductId = ""+selectedProduct.iterator().next().getProduct_id();
+        selectedProductStock = ""+selectedProduct.iterator().next().getStock();
+        selectedProductCtg = ""+selectedProduct.iterator().next().getCategory_id();
         showNotify(size > 0 ? size + " product selected: " + selectedProductName : "no product selected", win);
-        session.setAttribute("id_producto", "1522");
-        System.out.println(session.getAttribute("id_producto"));
+        //se crean variables de session para que almacenen los valores correspondientes al producto seleccionado
+        session.setAttribute("id_producto", selectedProductId);
+        session.setAttribute("nombre_producto", selectedProductName);
+        session.setAttribute("categoria_producto", selectedProductCtg);
+        session.setAttribute("stock_producto", selectedProductStock);
     }
 	
 	@Listen("onClick = #btn_del_product")
 	public void onClickDel() {
-		id_producto = selectedProductId;
+		String id_producto = selectedProductId;
 		System.out.println("entro eliminar");
 		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+id_producto)).build();
 		Executions.sendRedirect("");
