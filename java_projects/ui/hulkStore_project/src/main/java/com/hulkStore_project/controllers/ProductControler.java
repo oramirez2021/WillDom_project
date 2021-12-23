@@ -13,6 +13,8 @@ import java.net.http.HttpResponse;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -38,13 +40,14 @@ public class ProductControler extends SelectorComposer<Component> {
     private ListModel<Product> productsModel;
     @Wire
     private Window win;
-	//Consumo rest
+   	//Consumo rest
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 	ObjetoRespProduct ObjRespProd=null;
 	Gson gson = new GsonBuilder().serializeNulls().create();
 	String selectedProductId, selectedProductName = "";
 	String product_name = "";
 	int category_id,stock,product_id;
+	Session session = Sessions.getCurrent();
 	public ProductControler() {
 		cargarProductos();
 	}
@@ -67,13 +70,15 @@ public class ProductControler extends SelectorComposer<Component> {
         selectedProductName = selectedProduct.iterator().next().getproduct_name();
         selectedProductId = ""+selectedProduct.iterator().next().getProduct_id();
         showNotify(size > 0 ? size + " product selected: " + selectedProductName : "no product selected", win);
+        session.setAttribute("id_producto", "1522");
+        System.out.println(session.getAttribute("id_producto"));
     }
 	
 	@Listen("onClick = #btn_del_product")
 	public void onClickDel() {
-		String product_id = selectedProductId;
+		id_producto = selectedProductId;
 		System.out.println("entro eliminar");
-		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+product_id)).build();
+		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/DeleteProduct?product_id="+id_producto)).build();
 		Executions.sendRedirect("");
 		try {
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());	

@@ -6,8 +6,8 @@
 <label id="lbl_category_id" value="Código de Categoria:"/>
 <textbox id="txt_category_id"/>
 <label id="lbl_stock" value="Stock Producto:"/>
-<textbox id="txt_stock"/>
-<button id = "btn_save_product" >Salvar</button>
+<textbox id="txt_stock" />
+<button id = "btn_update_product" >Salvar</button>
 <button id = "btn_back" href = "../hulkStore_project/productos.zul"  >Volver</button>
 </window>
 </zk>
