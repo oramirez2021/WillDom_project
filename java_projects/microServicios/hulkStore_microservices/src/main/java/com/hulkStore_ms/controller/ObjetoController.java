@@ -78,12 +78,12 @@ public class ObjetoController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/InsertKardex", produces = "application/json")
-	public @ResponseBody String insertKardex(int product_id, Date transaction_date, Timestamp transaction_time,String ope_type, int cant ) {
+	public @ResponseBody String insertKardex(int product_id, String ope_type, int cant ) {
 		ObjetoService objService=null;
 		//System.out.println(inputJson);
 		try {
 			objService = new ObjetoService();
-			objService.insertKardex(product_id, transaction_date, transaction_time, ope_type, cant);
+			objService.insertKardex(product_id, ope_type, cant);
 		} catch (Exception ex) {
 			log.info(ex.toString());
 		}

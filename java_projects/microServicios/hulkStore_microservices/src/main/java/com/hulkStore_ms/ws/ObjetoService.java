@@ -150,22 +150,20 @@ public class ObjetoService {
 
 	}
 	
-	public void insertKardex(int product_id, Date transaction_date, Timestamp transaction_time, String ope_type, int cant) {
+	public void insertKardex(int product_id, String ope_type, int cant) {
 		//Product ObjProd = null;
 		// Instancias la clase que hemos creado anteriormente
 		DBConnection MySql = new DBConnection();
 		// Llamas al método que tiene la clase y te devuelve una conexión
 		Connection conn = MySql.mySQLConnect();
 		// Query que usarás para hacer lo que necesites
-		String comando = "insert into KARDEX(product_id,trasaction_date, transaction_time, ope_type, cant) values (?,?,?,?)";
+		String comando = "insert into KARDEX(product_id,transaction_date_time, ope_type, cant) values (?,now(),?,?)";
 		// Statement
 		try {
             PreparedStatement sentencia=conn.prepareStatement(comando);
             sentencia.setInt(1,product_id);
-            sentencia.setDate(2,transaction_date);
-            sentencia.setTimestamp(3, null);
-            sentencia.setString(4, ope_type);
-            sentencia.setInt(5,cant);
+            sentencia.setString(2, ope_type);
+            sentencia.setInt(3,cant);
             sentencia.executeUpdate();
         } catch (SQLException e) {
             
