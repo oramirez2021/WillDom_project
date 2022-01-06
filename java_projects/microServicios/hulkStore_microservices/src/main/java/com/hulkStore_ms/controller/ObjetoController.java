@@ -47,7 +47,7 @@ public class ObjetoController {
 		} catch (Exception ex) {
 			log.info(ex.toString());
 		}
-		return objService.getObjeto();
+		return ""+objService.product_id;
 	}
 	@RequestMapping(method = RequestMethod.GET, path = "/DeleteProduct", produces = "application/json")
 	public @ResponseBody String deleteProduct(int product_id) {

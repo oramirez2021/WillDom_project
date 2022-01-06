@@ -44,6 +44,7 @@ public class ObjetoService {
 	int ctrlSerCont = 0;// controla el exito o fracaso de la ejecucion del servicio
 	int ctrlSerMax = 1;// numero de servicios que seran controlados. Valor 1 debido a que se debe
 						// ejecutar el servicio tcpGateway
+	public int product_id;
 	String current_date;
 	HttpURLConnection conexion = null;
 	URL url = null;
@@ -64,6 +65,7 @@ public class ObjetoService {
 		Connection conn = MySql.mySQLConnect();
 		// Query que usarás para hacer lo que necesites
 		String query = "select product_id,product_name,category_id,stock from PRODUCT";
+		System.out.println("lista---");
 		// Statement
 		try {
             Statement sentencia=conn.createStatement();
@@ -92,12 +94,19 @@ public class ObjetoService {
 		String comando = "insert into PRODUCT(product_name,category_id,stock) values (?,?,?)";
 		// Statement
 		try {
-            PreparedStatement sentencia=conn.prepareStatement(comando);
+            PreparedStatement sentencia=conn.prepareStatement(comando, Statement.RETURN_GENERATED_KEYS);
             sentencia.setString(1,product_name);
             sentencia.setInt(2, category_id);
             sentencia.setInt(3, stock);
             sentencia.executeUpdate();
-            
+            resultado = sentencia.getGeneratedKeys();
+            //System.out.println("Generated Emp Id: "+resultado.getInt(1));
+            if(resultado != null && resultado.next()){
+            	System.out.println("prepared statement");
+				System.out.println("Generated Emp Id: "+resultado.getInt(1));
+				System.out.println("-------");
+				product_id = resultado.getInt(1);
+			}
         } catch (SQLException e) {
             
             e.printStackTrace();
