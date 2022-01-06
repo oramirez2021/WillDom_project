@@ -19,6 +19,8 @@ import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 
 import com.hulkStore_project.model.ObjetoRespProduct;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hulkStore_project.model.*;
 public class ProductControllerCRUD extends Controller {
 	Button btn_save_product;
@@ -29,7 +31,8 @@ public class ProductControllerCRUD extends Controller {
 	String product_name;
 	int stock,category_id,product_id;
 	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
-	
+	Gson gson = new Gson();
+	int trans_status;
 @Override
 public void doAfterCompose(Component comp) throws Exception {
 	// TODO Auto-generated method stub
@@ -41,7 +44,7 @@ public void doAfterCompose(Component comp) throws Exception {
 	}
 	try {
 	btn_update_product.addEventListener("onClick", new actualizarListener());
-	System.out.println(session.getAttribute("id_producto"));
+	//System.out.println(session.getAttribute("id_producto"));
 	txt_product_name.setValue(""+session.getAttribute("nombre_producto"));
 	txt_category_id.setValue(""+session.getAttribute("categoria_producto"));
 	txt_stock.setValue(""+session.getAttribute("stock_producto"));
@@ -71,16 +74,44 @@ public class actualizarListener implements EventListener {
 }
 
 private void insertarProducto(String product_name, int category_id, int stock) {
-	final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/InsertProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock)).build();
+	//Se inserta producto en la tabla PRODUCTS
+	final HttpRequest requestPost_prod = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/InsertProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock)).build();
 	try {
 		Listitem item,item1;
 		Listcell cell;
-		final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
-		
+		final HttpResponse<String> response_prod = httpClient.send(requestPost_prod, HttpResponse.BodyHandlers.ofString());
+		System.out.println("omar");
+		System.out.println(response_prod.statusCode());
+		System.out.println(response_prod.body());
+		System.out.println(response_prod.headers());
+		trans_status = response_prod.statusCode();
+		if (trans_status == 200) {
+			product_id = Integer.parseInt(response_prod.body());
+		}
+		//Se inserta movimiento en KARDEX de producto
+		final HttpRequest requestPost_k_prod = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/InsertKardex?product_id="+product_id+"&ope_type=E&cant="+stock)).build();
+		try {
+			final HttpResponse<String> response_kardex_prod = httpClient.send(requestPost_k_prod, HttpResponse.BodyHandlers.ofString());
+			
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	} catch (IOException | InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+	//Se inserta movimiento en KARDEX de producto
+	/*final HttpRequest requestPost_k_prod = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/InsertKardex?product_id="+""+"&ope_type=E&cant="+stock)).build();
+	try {
+		Listitem item,item1;
+		Listcell cell;
+		final HttpResponse<String> response = httpClient.send(requestPost_k_prod, HttpResponse.BodyHandlers.ofString());
+		
+	} catch (IOException | InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
 }
 
 private void actualizarProducto(String product_name, int category_id, int stock, int product_id) {

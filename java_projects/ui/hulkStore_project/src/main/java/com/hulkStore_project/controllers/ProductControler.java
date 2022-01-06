@@ -115,10 +115,10 @@ public class ProductControler extends SelectorComposer<Component> {
 			List<Product> list_product = new ArrayList<Product>();
 			Product producto;
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
-			System.out.println(response.body());
+			//System.out.println(response.body());
 			ObjRespProd=gson.fromJson(response.body(), ObjetoRespProduct.class);
-			System.out.println(ObjRespProd.product_name.get(0));
-			System.out.println(ObjRespProd.product_name.get(1));
+			//System.out.println(ObjRespProd.product_name.get(0));
+			//System.out.println(ObjRespProd.product_name.get(1));
 			int c=0;
 			for (int product_id : ObjRespProd.product_id) {
 				item = new Listitem();
@@ -126,7 +126,7 @@ public class ProductControler extends SelectorComposer<Component> {
 				cell = new Listcell();
 				cell.setParent(item);
 				cell.setLabel(Integer.toString(product_id));
-				System.out.println(product_id);
+				//System.out.println(product_id);
 				cell = new Listcell();
 				cell.setParent(item);
 				cell.setLabel(ObjRespProd.product_name.get(c));
