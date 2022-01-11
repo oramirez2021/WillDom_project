@@ -16,8 +16,9 @@ CREATE TABLE `PRODUCT` (
   `product_name` varchar(100) NOT NULL,
   `category_id` int(11) NOT NULL,
   `stock` int(11) NOT NULL,
+  `image_path` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- HulkStore.`USER` definition
 
@@ -27,6 +28,16 @@ CREATE TABLE `USER` (
   `user_last_name` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- HulkStore.KARDEX definition
+
+CREATE TABLE `KARDEX` (
+  `id` int(11) NOT NULL,
+  `product_id` varchar(100) NOT NULL,
+  `transaction_date_time` varchar(100) NOT NULL,
+  `ope_type` varchar(100) NOT NULL COMMENT '"E" entrata, "S" salida',
+  `cant` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --INSERTAR TABLA PRODUCT
