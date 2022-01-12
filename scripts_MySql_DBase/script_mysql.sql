@@ -5,6 +5,7 @@ CREATE DATABASE `HulkStore` /*!40100 DEFAULT CHARACTER SET latin1 */;
 CREATE TABLE `CATEGORY` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(100) NOT NULL,
+  `image_path` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
