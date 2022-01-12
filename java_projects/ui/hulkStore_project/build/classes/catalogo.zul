@@ -2,5 +2,18 @@
 <zk>
 <window title="CATALOGO" border="normal" apply = "com.hulkStore_project.controllers.CatalogoController" id = "win">
 New Content Here!
+<listbox id = "lbl_category_products" model = "${win$composer.categoriesModel}" mold = "paging" pageSize = "9" checkmark="false">
+	<listhead>
+		<listheader label = "CATEGORIA"/>
+		<listheader label = "FOTO"/>
+	</listhead>
+	<template name="model">
+            <listitem>
+                <listcell />
+                <listcell label="${each.category_name}" />
+                <listcell label="${each.image_path}" />
+            </listitem>
+        </template>
+</listbox>
 </window>
 </zk>

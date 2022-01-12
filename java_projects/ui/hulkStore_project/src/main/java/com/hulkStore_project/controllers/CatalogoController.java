@@ -2,6 +2,7 @@ package com.hulkStore_project.controllers;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
@@ -18,7 +19,10 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hulkStore_project.model.Category;
+import com.hulkStore_project.model.ObjetoRespCategory;
 import com.hulkStore_project.model.ObjetoRespProduct;
 import com.hulkStore_project.model.Product;
 
@@ -26,6 +30,12 @@ public class CatalogoController extends SelectorComposer<Component>{
 	private ListModel<Category> categoriesModel;
 	String selectedCategoryName, selectedCategoryId, selectedImagePath;
 	Session session = Sessions.getCurrent();
+	private HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
+	Gson gson = new GsonBuilder().serializeNulls().create();
+	public CatalogoController() {
+		cargarCategorias();
+	}
+	
 	public ListModel<Category> getCategoriesModel() {
         return categoriesModel;
     }
@@ -52,37 +62,30 @@ public class CatalogoController extends SelectorComposer<Component>{
 		try {
 			Listitem item,item1;
 			Listcell cell;
-			List<Category> list_product = new ArrayList<Category>();
+			List<Category> list_category = new ArrayList<Category>();
 			Category category;
 			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());
 			ObjetoRespCategory ObjRespCate=null;
 			//System.out.println(response.body());
-			ObjRespCate=gson.fromJson(response.body(), ObjetoRespProduct.class);
+			ObjRespCate=gson.fromJson(response.body(), ObjetoRespCategory.class);
 			//System.out.println(ObjRespProd.product_name.get(0));
 			//System.out.println(ObjRespProd.product_name.get(1));
 			int c=0;
-			for (int product_id : ObjRespProd.product_id) {
+			for (int category_id : ObjRespCate.category_id) {
 				item = new Listitem();
 				item.setValue(null);
 				cell = new Listcell();
 				cell.setParent(item);
-				cell.setLabel(Integer.toString(product_id));
-				//System.out.println(product_id);
+				cell.setLabel(ObjRespCate.category_name.get(c));
 				cell = new Listcell();
 				cell.setParent(item);
-				cell.setLabel(ObjRespProd.product_name.get(c));
-				cell = new Listcell();
-				cell.setParent(item);
-				cell.setLabel(Integer.toString(ObjRespProd.category_id.get(c)));
-				cell = new Listcell();
-				cell.setParent(item);
-				cell.setLabel(Integer.toString(ObjRespProd.stock.get(c)));			
-				category = new Product(product_id,ObjRespProd.product_name.get(c),ObjRespProd.category_id.get(c),ObjRespProd.stock.get(c));
-				list_product.add(producto);
+				cell.setLabel(ObjRespCate.image_path.get(c));
+				category = new Category(category_id,ObjRespCate.category_name.get(c), ObjRespCate.image_path.get(c));
+				list_category.add(category);
 				c++;
 			}				
 			
-			productsModel = new ListModelList<Product>(list_product);			
+			categoriesModel = new ListModelList<Category>(list_category);			
 			
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block

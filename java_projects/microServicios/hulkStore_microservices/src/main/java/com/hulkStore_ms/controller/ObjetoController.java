@@ -35,6 +35,18 @@ public class ObjetoController {
 		return objService.getObjeto();
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, path = "/GetCategories", produces = "application/json")
+	public @ResponseBody String getObjeto1() {
+		ObjetoService objService=null;
+		try {
+			objService = new ObjetoService();
+			objService.getCategories();
+		} catch (Exception ex) {
+			log.info(ex.toString());
+		}
+		return objService.getObjeto1();
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, path = "/InsertProduct", produces = "application/json")
 	public @ResponseBody String insertProduct(String product_name, int category_id, int stock) {
 		ObjetoService objService=null;

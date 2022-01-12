@@ -29,7 +29,8 @@ import java.sql.SQLException;
 
 //@Service
 public class ObjetoService {
-	ObjetoRespProduct ObjRespProd = new ObjetoRespProduct();	
+	ObjetoRespProduct ObjRespProd = new ObjetoRespProduct();
+	ObjetoRespCategory ObjRespCate = new ObjetoRespCategory();
 	ResultSet resultado;
 	Properties p = null;
 	SimpleDateFormat fecha_formato = new SimpleDateFormat("dd-MM-yyyy");
@@ -83,7 +84,31 @@ public class ObjetoService {
         }
 
 	}
-	
+	public void getCategories() {
+		//Product ObjProd = null;
+		// Instancias la clase que hemos creado anteriormente
+		DBConnection MySql = new DBConnection();
+		// Llamas al método que tiene la clase y te devuelve una conexión
+		Connection conn = MySql.mySQLConnect();
+		// Query que usarás para hacer lo que necesites
+		String query = "select category_id,category_name,image_path from CATEGORY";
+		System.out.println("lista categoria---");
+		// Statement
+		try {
+            Statement sentencia=conn.createStatement();
+            resultado=sentencia.executeQuery(query);
+            while (resultado.next()) {
+            	ObjRespCate.category_id.add(resultado.getInt("category_id"));
+            	ObjRespCate.category_name.add(resultado.getString("category_name"));
+            	ObjRespCate.image_path.add(resultado.getString("image_path"));
+            }
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+	}
 	public void insertProduct(String product_name, int category_id, int stock) {
 		//Product ObjProd = null;
 		// Instancias la clase que hemos creado anteriormente
@@ -206,6 +231,13 @@ public class ObjetoService {
 	public String getObjeto() {
 		
 		String json = gson.toJson(ObjRespProd);
+		return json;
+		/*return json.replace("null", "\"\"").replace("-1.1", "\"Ilimitado\"").replace("-2.2", "\"Ilimitado\"")
+				.replace("-3.3", "\"Ilimitado\"");*/
+	}
+	public String getObjeto1() {
+		
+		String json = gson.toJson(ObjRespCate);
 		return json;
 		/*return json.replace("null", "\"\"").replace("-1.1", "\"Ilimitado\"").replace("-2.2", "\"Ilimitado\"")
 				.replace("-3.3", "\"Ilimitado\"");*/

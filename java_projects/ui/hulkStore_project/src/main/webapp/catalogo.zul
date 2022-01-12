@@ -2,20 +2,16 @@
 <zk>
 <window title="CATALOGO" border="normal" apply = "com.hulkStore_project.controllers.CatalogoController" id = "win">
 New Content Here!
-<listbox id = "lbl_category_products" model = "${win$composer.productsModel}" mold = "paging" pageSize = "9" checkmark="false">
+<listbox id = "lbl_category_products" model = "${win$composer.categoriesModel}" mold = "paging" pageSize = "9" checkmark="false">
 	<listhead>
-		<listheader label = "CODIGO PRODUCTO"/>
-		<listheader label = "PRODUCTO"/>
 		<listheader label = "CATEGORIA"/>
-		<listheader label = "STOCK"/>
+		<listheader label = "FOTO"/>
 	</listhead>
 	<template name="model">
             <listitem>
                 <listcell />
-                <listcell label="${each.product_id}" />
-                <listcell label="${each.product_name}" />
-                <listcell label="${each.category_id}" />
-                <listcell label="${each.stock}" />
+                <listcell label="${each.category_name}" />
+                <listcell label="${each.image_path}" />
             </listitem>
         </template>
 </listbox>

@@ -1,4 +1,4 @@
-package com.hulkStore_project.model;
+package com.hulkStore_ms.model;
 
 import java.util.ArrayList;
 
