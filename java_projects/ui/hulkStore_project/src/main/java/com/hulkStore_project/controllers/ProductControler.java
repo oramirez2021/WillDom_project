@@ -92,21 +92,7 @@ public class ProductControler extends SelectorComposer<Component> {
 			e.printStackTrace();
 		}
     }
-	
-	/*@Listen("onClick = #btn_upd_product")
-	public void onClickUpd() {
-		String product_id = selectedProductId;
-		System.out.println("entro eliminar");
-		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/UpdateProduct?product_name="+product_name+"&category_id="+category_id+"&stock="+stock+"&product_id="+product_id)).build();
-		Executions.sendRedirect("");
-		try {
-			final HttpResponse<String> response = httpClient.send(requestPost, HttpResponse.BodyHandlers.ofString());	
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }*/
-	
+
 	private void cargarProductos() {
 		final HttpRequest requestPost = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8888/hulkStore/GetProducts")).build();
 		try {
