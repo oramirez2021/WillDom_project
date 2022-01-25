@@ -74,12 +74,12 @@ public class CatalogoController extends SelectorComposer<Component>{
 			for (int category_id : ObjRespCate.category_id) {
 				item = new Listitem();
 				item.setValue(null);
-				cell = new Listcell();
+				/*cell = new Listcell();
 				cell.setParent(item);
 				cell.setLabel(ObjRespCate.category_name.get(c));
 				cell = new Listcell();
 				cell.setParent(item);
-				cell.setLabel(ObjRespCate.image_path.get(c));
+				cell.setLabel(ObjRespCate.image_path.get(c));*/
 				category = new Category(category_id,ObjRespCate.category_name.get(c), ObjRespCate.image_path.get(c));
 				list_category.add(category);
 				c++;

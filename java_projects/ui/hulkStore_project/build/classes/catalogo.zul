@@ -9,9 +9,8 @@ New Content Here!
 	</listhead>
 	<template name="model">
             <listitem>
-                <listcell />
                 <listcell label="${each.category_name}" />
-                <listcell label="${each.image_path}" />
+                <listcell><image src="${each.image_path}" /></listcell>
             </listitem>
         </template>
 </listbox>
