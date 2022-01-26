@@ -30,6 +30,7 @@ import java.sql.SQLException;
 //@Service
 public class ObjetoService {
 	ObjetoRespProduct ObjRespProd = new ObjetoRespProduct();
+	ObjetoRespProduct ObjRespProdFromCate = new ObjetoRespProduct();
 	ObjetoRespCategory ObjRespCate = new ObjetoRespCategory();
 	ResultSet resultado;
 	Properties p = null;
@@ -76,6 +77,33 @@ public class ObjetoService {
             	ObjRespProd.product_name.add(resultado.getString("product_name"));
             	ObjRespProd.category_id.add(resultado.getInt("category_id"));
             	ObjRespProd.stock.add(resultado.getInt("stock"));
+            }
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+        }
+
+	}
+	public void getProductsFromCategory(int category_id) {
+		//Product ObjProd = null;
+		// Instancias la clase que hemos creado anteriormente
+		DBConnection MySql = new DBConnection();
+		// Llamas al método que tiene la clase y te devuelve una conexión
+		Connection conn = MySql.mySQLConnect();
+		// Query que usarás para hacer lo que necesites
+		String query = "select product_id,product_name,category_id,stock from PRODUCT where category_id = "+category_id;
+		System.out.println(query);
+		System.out.println("lista productos por categoria---");
+		// Statement
+		try {
+            Statement sentencia=conn.createStatement();
+            resultado=sentencia.executeQuery(query);
+            while (resultado.next()) {
+            	ObjRespProdFromCate.product_id.add(resultado.getInt("product_id"));
+            	ObjRespProdFromCate.product_name.add(resultado.getString("product_name"));
+            	ObjRespProdFromCate.category_id.add(resultado.getInt("category_id"));
+            	ObjRespProdFromCate.stock.add(resultado.getInt("stock"));
             }
             
         } catch (SQLException e) {
@@ -238,6 +266,13 @@ public class ObjetoService {
 	public String getObjeto1() {
 		
 		String json = gson.toJson(ObjRespCate);
+		return json;
+		/*return json.replace("null", "\"\"").replace("-1.1", "\"Ilimitado\"").replace("-2.2", "\"Ilimitado\"")
+				.replace("-3.3", "\"Ilimitado\"");*/
+	}
+	public String getObjeto2() {
+		
+		String json = gson.toJson(ObjRespProdFromCate);
 		return json;
 		/*return json.replace("null", "\"\"").replace("-1.1", "\"Ilimitado\"").replace("-2.2", "\"Ilimitado\"")
 				.replace("-3.3", "\"Ilimitado\"");*/
