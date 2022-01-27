@@ -66,7 +66,7 @@ public class ObjetoService {
 		// Llamas al método que tiene la clase y te devuelve una conexión
 		Connection conn = MySql.mySQLConnect();
 		// Query que usarás para hacer lo que necesites
-		String query = "select product_id,product_name,category_id,stock from PRODUCT";
+		String query = "select product_id,product_name,category_id,stock,image_path from PRODUCT";
 		System.out.println("lista---");
 		// Statement
 		try {
@@ -77,6 +77,7 @@ public class ObjetoService {
             	ObjRespProd.product_name.add(resultado.getString("product_name"));
             	ObjRespProd.category_id.add(resultado.getInt("category_id"));
             	ObjRespProd.stock.add(resultado.getInt("stock"));
+            	ObjRespProd.image_path.add(resultado.getString("image_path"));
             }
             
         } catch (SQLException e) {
@@ -92,7 +93,7 @@ public class ObjetoService {
 		// Llamas al método que tiene la clase y te devuelve una conexión
 		Connection conn = MySql.mySQLConnect();
 		// Query que usarás para hacer lo que necesites
-		String query = "select product_id,product_name,category_id,stock from PRODUCT where category_id = "+category_id;
+		String query = "select product_id,product_name,category_id,stock,image_path from PRODUCT where category_id = "+category_id;
 		System.out.println(query);
 		System.out.println("lista productos por categoria---");
 		// Statement
@@ -104,6 +105,7 @@ public class ObjetoService {
             	ObjRespProdFromCate.product_name.add(resultado.getString("product_name"));
             	ObjRespProdFromCate.category_id.add(resultado.getInt("category_id"));
             	ObjRespProdFromCate.stock.add(resultado.getInt("stock"));
+            	ObjRespProdFromCate.image_path.add(resultado.getString("image_path"));
             }
             
         } catch (SQLException e) {
